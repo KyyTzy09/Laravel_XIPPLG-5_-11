@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\Admin\DashboardController;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [LandingController::class, 'Index'])-> name('LandingPage');
+Route::prefix('admin')-> group(function () {
+    Route::get('/dashboard', [DashboardController:: class, 'Index' ])-> name('Admin.Dashboard');
 });
