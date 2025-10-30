@@ -55,7 +55,11 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Ini untuk mencari apakah data student ada atau tidak
+        $student = Student::findOrFail($id);
+
+        // Jika data student ada, maka akan diarahkan ke halaman edit dengan membawa data student
+        return view('admin.student.update', compact('student'));
     }
 
     /**
@@ -63,7 +67,16 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'nis' => 'required|unique:students',
+            'nama_lengkap' => 'required',
+            'jenis_kelamin' => 'required',
+            'nisn'=> 'required',
+        ]);
+
+        $student = Student::findOrFail($id);
+        $student->update($validated);
+        return redirect()->route('admin.students.index')->with('success', 'Data siswa berhasil diupdate.');
     }
 
     /**
